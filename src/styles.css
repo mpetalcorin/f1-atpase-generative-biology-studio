@@ -1,0 +1,431 @@
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #151827;
+  background: #f7f7f1;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; min-width: 320px; min-height: 100vh; overflow-x: hidden; }
+button, a { font: inherit; }
+button { cursor: pointer; }
+
+.app {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  color: #eef1ff;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(87, 103, 255, 0.28), transparent 30%),
+    radial-gradient(circle at 80% 18%, rgba(255, 110, 186, 0.22), transparent 35%),
+    linear-gradient(135deg, #090a16 0%, #151627 48%, #090b12 100%);
+}
+.app.light {
+  color: #121827;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(255, 148, 112, 0.18), transparent 28%),
+    radial-gradient(circle at 80% 5%, rgba(103, 91, 255, 0.14), transparent 32%),
+    linear-gradient(180deg, #fbfaf3 0%, #f2f1e7 58%, #edece2 100%);
+}
+
+.app::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+  background-size: 58px 58px;
+  mask-image: radial-gradient(circle at 50% 18%, black 0%, transparent 68%);
+  pointer-events: none;
+}
+.app.light::before {
+  background-image:
+    linear-gradient(rgba(30,45,85,0.065) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30,45,85,0.065) 1px, transparent 1px);
+}
+
+.nav, .hero, .sectionPad, footer { position: relative; z-index: 5; }
+
+.nav {
+  position: sticky;
+  top: 0;
+  width: min(1180px, calc(100% - 36px));
+  margin: 18px auto 0;
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 24px;
+  background: rgba(11, 13, 27, 0.62);
+  backdrop-filter: blur(22px);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.16);
+}
+.app.light .nav {
+  background: rgba(255, 255, 250, 0.78);
+  border-color: rgba(31, 39, 74, 0.13);
+}
+.brand {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+.brandMark, .iconBubble, .resourceIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  color: #fff;
+  background: linear-gradient(135deg, #ff4d2e, #6b5cff 55%, #37d5ff);
+  box-shadow: 0 12px 28px rgba(93, 83, 244, 0.28);
+}
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.navLinks button, .navButtonLink, .motionToggle {
+  border: 1px solid rgba(255,255,255,0.18);
+  color: inherit;
+  background: rgba(255,255,255,0.08);
+  padding: 10px 13px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease;
+}
+.app.light .navLinks button { border-color: rgba(20,29,58,0.12); background: rgba(255,255,255,0.78); }
+.navLinks button:hover, .primaryButton:hover, .secondaryButton:hover, .cardButton:hover, .ghostMini:hover, .resourceCard:hover, .consoleActions button:hover, .platformButtons button:hover, .viewerControlDock button:hover {
+  transform: translateY(-2px);
+  border-color: rgba(108, 92, 255, 0.55);
+}
+.motionToggle { background: linear-gradient(135deg, rgba(255, 81, 43, 0.26), rgba(104, 92, 255, 0.20)) !important; }
+
+.pymolBackground {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.96;
+}
+.pymolGridBox, .pymol3dViewer, .pymolScene, .proteinBlurBand, .pdbBadge { position: absolute; }
+.pymolGridBox {
+  inset: 4% 3% auto 3%;
+  height: 74vh;
+  opacity: 0.88;
+  transform: perspective(980px) rotateX(59deg) translateY(-6vh) scale(1.05);
+  transform-origin: 50% 34%;
+}
+.gridPerspective { width: 100%; height: 100%; overflow: visible; }
+.backPlane rect { fill: rgba(255,255,255,0.05); stroke: rgba(65,78,126,0.22); stroke-width: 1; }
+.app.light .backPlane rect { fill: rgba(255,255,255,0.23); stroke: rgba(44,61,116,0.13); }
+.backPlane path, .perspectiveEdges path { fill: none; stroke: rgba(118, 128, 190, 0.20); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.app.light .backPlane path, .app.light .perspectiveEdges path { stroke: rgba(58,75,126,0.14); }
+.pymol3dViewer {
+  left: 50%;
+  top: 45%;
+  width: min(1020px, 92vw);
+  height: min(720px, 80vh);
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 42px 65px rgba(20, 21, 80, 0.25)) saturate(1.12);
+  opacity: 0.96;
+}
+.pymol3dViewer canvas { border-radius: 30px; }
+.pdbBadge {
+  top: 110px;
+  right: max(24px, calc((100vw - 1180px) / 2));
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(250,252,255,0.86);
+  background: rgba(11, 13, 27, 0.50);
+  border: 1px solid rgba(255,255,255,0.16);
+  backdrop-filter: blur(14px);
+}
+.app.light .pdbBadge { color: rgba(28,34,62,0.76); background: rgba(255,255,255,0.72); border-color: rgba(32,42,77,0.10); }
+.pymolFallback {
+  width: 100%;
+  height: 100%;
+  opacity: 0.26;
+  mix-blend-mode: soft-light;
+}
+.proteinComplex { transform-origin: 50% 48%; animation: floatProtein 7s ease-in-out infinite alternate; }
+.motionOff .proteinComplex { animation-play-state: paused; }
+.loop { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 34; opacity: 0.82; }
+.redStroke { stroke: url(#redRibbon); }
+.violetStroke { stroke: url(#violetRibbon); }
+.orangeStroke { stroke: url(#orangeRibbon); }
+.atomCloudBackdrop circle { fill: rgba(92, 94, 158, 0.35); animation: atomPulse 5s ease-in-out infinite; }
+.proteinBlurBand {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 36vh;
+  background: linear-gradient(180deg, transparent, rgba(9,10,22,0.72));
+}
+.app.light .proteinBlurBand { background: linear-gradient(180deg, transparent, rgba(250,249,241,0.88)); }
+@keyframes floatProtein { from { transform: translateY(-12px) rotate(-1.3deg) scale(1.01); } to { transform: translateY(16px) rotate(1.1deg) scale(1.04); } }
+@keyframes atomPulse { 0%,100% { opacity: .12; transform: scale(.82); } 50% { opacity: .48; transform: scale(1.3); } }
+
+.hero {
+  width: min(1180px, calc(100% - 36px));
+  margin: 0 auto;
+  min-height: 880px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 76px 0 54px;
+}
+.heroProteinSpacer { flex: 1; min-height: 330px; }
+.latentGlassHero {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  gap: 40px;
+  padding: 38px;
+  border-radius: 38px;
+  border: 1px solid rgba(255,255,255,0.22);
+  background: linear-gradient(135deg, rgba(12, 14, 28, 0.70), rgba(12, 14, 28, 0.45));
+  backdrop-filter: blur(24px) saturate(1.3);
+  box-shadow: 0 34px 100px rgba(5, 8, 24, 0.24);
+}
+.app.light .latentGlassHero {
+  border-color: rgba(25, 35, 72, 0.14);
+  background: linear-gradient(135deg, rgba(255,255,251,0.76), rgba(255,255,255,0.46));
+}
+.missionColumn { display: flex; align-items: flex-start; gap: 12px; color: #9ea9ff; font-weight: 800; text-transform: uppercase; letter-spacing: .11em; font-size: 12px; }
+.app.light .missionColumn { color: #5c49d8; }
+.missionDot { width: 12px; height: 12px; border-radius: 999px; background: #ff4d2e; box-shadow: 0 0 0 8px rgba(255, 77, 46, 0.14); margin-top: 2px; }
+.heroStatement h1 {
+  margin: 0;
+  max-width: 860px;
+  font-size: clamp(46px, 7.4vw, 96px);
+  line-height: 0.93;
+  letter-spacing: -0.07em;
+}
+.heroStatement p {
+  max-width: 810px;
+  color: rgba(238,241,255,0.74);
+  font-size: clamp(17px, 2vw, 22px);
+  line-height: 1.55;
+}
+.app.light .heroStatement p { color: rgba(28,34,62,0.72); }
+.heroActions, .consoleActions, .platformButtons, .cardActions, .viewerControlDock { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.primaryButton, .secondaryButton, .cardButton, .ghostMini, .consoleActions button, .platformButtons button, .viewerControlDock button {
+  border: 1px solid rgba(255,255,255,0.20);
+  color: inherit;
+  background: rgba(255,255,255,0.09);
+  border-radius: 999px;
+  padding: 13px 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.primaryButton, .cardButton {
+  color: #fff;
+  border: none;
+  background: linear-gradient(135deg, #ff4d2e, #6b5cff 62%, #26c8ff);
+  box-shadow: 0 18px 40px rgba(91, 82, 237, 0.28);
+  font-weight: 800;
+}
+.secondaryButton, .ghostMini { text-decoration: none; }
+.app.light .secondaryButton, .app.light .ghostMini, .app.light .consoleActions button, .app.light .platformButtons button, .app.light .viewerControlDock button { border-color: rgba(24,33,66,.14); background: rgba(255,255,255,0.74); }
+.viewerControlDock {
+  justify-content: center;
+  margin: 18px auto 0;
+  padding: 12px;
+  border-radius: 24px;
+  background: rgba(12,14,28,0.38);
+  border: 1px solid rgba(255,255,255,0.16);
+  backdrop-filter: blur(18px);
+}
+.app.light .viewerControlDock { background: rgba(255,255,255,0.58); border-color: rgba(24,33,66,.12); }
+
+.metricGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-top: 18px;
+}
+.metric {
+  padding: 20px;
+  border-radius: 26px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(12, 14, 28, 0.48);
+  backdrop-filter: blur(18px);
+}
+.app.light .metric { background: rgba(255,255,255,0.70); border-color: rgba(24,33,66,0.11); }
+.metric strong { display: block; font-size: 26px; letter-spacing: -0.05em; }
+.metric span { display: block; margin-top: 4px; color: rgba(238,241,255,0.64); font-size: 13px; }
+.app.light .metric span { color: rgba(29,36,69,0.62); }
+
+.sectionPad {
+  width: min(1180px, calc(100% - 36px));
+  margin: 0 auto;
+  padding: 78px 0;
+}
+.sectionHeader { max-width: 850px; margin-bottom: 28px; }
+.compactHeader { margin-bottom: 22px; }
+.kicker {
+  display: inline-flex;
+  margin-bottom: 12px;
+  color: #8fb7ff;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-size: 12px;
+}
+.app.light .kicker { color: #5d4bd9; }
+.sectionHeader h2, .workflowPanel h2, .platformCopy h2 {
+  margin: 0;
+  font-size: clamp(32px, 5vw, 58px);
+  line-height: 1;
+  letter-spacing: -0.055em;
+}
+.sectionHeader p, .workflowPanel p, .platformCopy p { color: rgba(238,241,255,0.70); line-height: 1.7; font-size: 17px; }
+.app.light .sectionHeader p, .app.light .workflowPanel p, .app.light .platformCopy p { color: rgba(28,34,62,0.68); }
+.modelGrid, .resourceGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.modelCard {
+  min-height: 330px;
+  padding: 22px;
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 30px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.045));
+  backdrop-filter: blur(16px);
+  box-shadow: 0 20px 80px rgba(0,0,0,0.10);
+  transition: transform .22s ease, border-color .22s ease, background .22s ease;
+}
+.app.light .modelCard { background: linear-gradient(180deg, rgba(255,255,255,0.84), rgba(255,255,255,0.56)); border-color: rgba(24,33,66,0.12); }
+.modelCard:hover { transform: translateY(-6px); }
+.selectedModel { border-color: rgba(255, 82, 46, 0.72); box-shadow: 0 24px 80px rgba(109, 92, 255, 0.20); }
+.cardTopline { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: .09em; color: #aeb7ff; }
+.app.light .cardTopline { color: #5143bd; }
+.modelCard h3 { margin: 22px 0 10px; font-size: 25px; letter-spacing: -0.04em; }
+.modelCard p { color: rgba(238,241,255,0.68); line-height: 1.62; min-height: 104px; }
+.app.light .modelCard p { color: rgba(28,34,62,0.66); }
+.tagRow { display: flex; flex-wrap: wrap; gap: 7px; margin: 14px 0 18px; }
+.tagRow span { border-radius: 999px; padding: 7px 10px; background: rgba(255,255,255,0.10); font-size: 12px; color: rgba(238,241,255,0.78); }
+.app.light .tagRow span { background: rgba(88,93,141,0.09); color: rgba(24,32,65,.76); }
+.cardActions { align-items: stretch; }
+.cardButton, .ghostMini { padding: 11px 13px; font-size: 13px; }
+.ghostMini { flex: 1; justify-content: center; }
+
+.resourceGrid { grid-template-columns: repeat(4, 1fr); }
+.resourceCard {
+  text-align: left;
+  width: 100%;
+  min-height: 126px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 18px;
+  border-radius: 26px;
+  border: 1px solid rgba(255,255,255,0.16);
+  color: inherit;
+  background: rgba(12,14,28,0.44);
+  backdrop-filter: blur(16px);
+  transition: transform .2s ease, border-color .2s ease, background .2s ease;
+}
+.app.light .resourceCard { border-color: rgba(24,33,66,0.11); background: rgba(255,255,255,0.70); }
+.resourceCard strong, .resourceCard em { display: block; }
+.resourceCard strong { font-size: 16px; letter-spacing: -0.02em; }
+.resourceCard em { margin-top: 5px; color: rgba(238,241,255,0.62); font-style: normal; font-size: 13px; line-height: 1.4; }
+.app.light .resourceCard em { color: rgba(28,34,62,0.62); }
+
+.workflowPanel, .platformSection {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 28px;
+  align-items: stretch;
+}
+.workflowPanel, .consoleCard, .platformCopy {
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 34px;
+  padding: 32px;
+  background: rgba(12,14,28,0.52);
+  backdrop-filter: blur(18px);
+}
+.app.light .workflowPanel, .app.light .consoleCard, .app.light .platformCopy { border-color: rgba(24,33,66,0.11); background: rgba(255,255,255,0.70); }
+.steps { display: grid; gap: 14px; }
+.step { display: grid; grid-template-columns: 54px 1fr; gap: 18px; padding: 18px; border-radius: 24px; background: rgba(255,255,255,0.07); }
+.app.light .step { background: rgba(82,90,139,0.07); }
+.step strong { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 16px; color: #fff; background: linear-gradient(135deg, #ff4d2e, #6b5cff); }
+.step h3 { margin: 0 0 4px; }
+.step p { margin: 0; font-size: 14px; }
+
+.consoleCard { overflow: hidden; }
+.consoleHeader { display: flex; align-items: center; gap: 8px; margin: -8px -8px 18px; padding: 12px; border-radius: 18px; background: rgba(0,0,0,0.20); }
+.app.light .consoleHeader { background: rgba(70,76,120,0.08); }
+.consoleHeader span { width: 10px; height: 10px; border-radius: 999px; background: #ff5f57; }
+.consoleHeader span:nth-child(2) { background: #ffbd2e; }
+.consoleHeader span:nth-child(3) { background: #28c840; }
+.consoleHeader p { margin: 0 0 0 8px; color: rgba(238,241,255,0.64); font-size: 13px; }
+.app.light .consoleHeader p { color: rgba(28,34,62,0.58); }
+pre {
+  margin: 0;
+  padding: 20px;
+  border-radius: 24px;
+  overflow-x: auto;
+  color: #e9f2ff;
+  background: rgba(2, 4, 12, 0.58);
+  border: 1px solid rgba(255,255,255,0.10);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.app.light pre { color: #1b2441; background: rgba(255,255,255,0.70); border-color: rgba(24,33,66,0.10); }
+.consoleActions { margin: 16px 0 8px; }
+.runStatus { margin: 12px 0 0; padding: 13px 15px; border-radius: 18px; background: rgba(255,255,255,0.08); color: rgba(238,241,255,0.76); }
+.app.light .runStatus { background: rgba(82,90,139,0.08); color: rgba(28,34,62,0.70); }
+.runStatus.running { color: #ffd38a; }
+.runStatus.complete { color: #7df2c2; }
+.app.light .runStatus.complete { color: #087a54; }
+.platformButtons { margin: 20px 0; }
+.featureList { display: grid; gap: 10px; margin-top: 20px; }
+.featureList span { display: flex; align-items: center; gap: 10px; padding: 14px; border-radius: 18px; background: rgba(255,255,255,0.07); color: rgba(238,241,255,0.78); }
+.app.light .featureList span { background: rgba(82,90,139,0.07); color: rgba(28,34,62,0.72); }
+footer { width: min(1180px, calc(100% - 36px)); margin: 0 auto; padding: 40px 0 70px; color: rgba(238,241,255,0.58); }
+.app.light footer { color: rgba(28,34,62,0.55); }
+
+@media (max-width: 1080px) {
+  .modelGrid, .resourceGrid { grid-template-columns: repeat(2, 1fr); }
+  .workflowPanel, .platformSection { grid-template-columns: 1fr; }
+  .latentGlassHero { grid-template-columns: 1fr; }
+  .metricGrid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 720px) {
+  .nav { position: relative; align-items: flex-start; flex-direction: column; }
+  .navLinks { justify-content: flex-start; }
+  .hero { min-height: 820px; padding-top: 32px; }
+  .heroProteinSpacer { min-height: 250px; }
+  .latentGlassHero { padding: 26px; border-radius: 28px; }
+  .modelGrid, .resourceGrid, .metricGrid { grid-template-columns: 1fr; }
+  .pymol3dViewer { width: 108vw; height: 66vh; top: 36%; }
+  .pdbBadge { top: 160px; left: 18px; right: auto; max-width: calc(100vw - 36px); }
+  .sectionPad { padding: 54px 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+}
